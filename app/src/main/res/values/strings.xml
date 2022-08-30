@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Makan Makan App</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="favourites">Favourites</string>
+    <string name="settings">Settings</string>
+    <string name="see_all">Lihat semua</string>
+    <string name="recent_food_description">Berdasarkan pencarian</string>
+    <string name="recent_food">Makanan favoritmu</string>
+    <string name="popular_food">Makanan Hits di sekitarmu</string>
+    <string name="search_hint">Mau makan apa?</string>
+    <string name="new_restaurants">Tempat Makan Baru</string>
+    <string name="new_restaurant_desc">Buruan jadi yang pertama cobain!</string>
+    <string name="hello_message">Hello, %1$s!</string>
+    <string name="find_random_food">Bingung cari makan?</string>
+    <string name="find_random_food_description">Cari makanan memang berat, biar makanmakan yang cari untukmu</string>
+    <string name="get_random_food">Terserah aja, deh</string>
+</resources>
