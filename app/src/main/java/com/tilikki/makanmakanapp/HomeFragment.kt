@@ -4,15 +4,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tilikki.makanmakanapp.adapter.CategoryAdapter
 import com.tilikki.makanmakanapp.adapter.FoodMenuAdapter
 import com.tilikki.makanmakanapp.adapter.RestaurantListAdapter
 import com.tilikki.makanmakanapp.databinding.FragmentHomeBinding
+import com.tilikki.makanmakanapp.model.CategoryModel
 import com.tilikki.makanmakanapp.model.FeaturedFoodModel
 import com.tilikki.makanmakanapp.model.RestaurantModel
-import layout.model.CategoryModel
+import com.tilikki.makanmakanapp.view.CategoryCard
+import com.tilikki.makanmakanapp.view.FoodCard
+import com.tilikki.makanmakanapp.view.HomeHeading
+import com.tilikki.makanmakanapp.view.RestaurantCard
 
 /**
  * A simple [Fragment] subclass.
@@ -77,9 +94,17 @@ class HomeFragment : Fragment() {
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ): View? {
+  ): View {
     binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-    return binding.root
+    //    return binding.root
+    return ComposeView(requireContext()).apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setContent {
+        MaterialTheme {
+          HomeView()
+        }
+      }
+    }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,16 +128,45 @@ class HomeFragment : Fragment() {
     binding.tvLocation.text = userData.second
   }
 
+  @Composable
+  private fun HomeView() {
+    val userData = MockHomeFragmentData.getUserData()
+    val categories = MockHomeFragmentData.getCategoriesList()
+    val featuredFoodList = MockHomeFragmentData.getFeaturedFoodList()
+    val favoriteFoodList = MockHomeFragmentData.getFavoriteFoodList()
+    val newRestaurantList = MockHomeFragmentData.getNewRestaurantList()
+    Column(
+      modifier = Modifier
+        .background(colorResource(id = R.color.white))
+        .verticalScroll(rememberScrollState())
+    ) {
+      HomeHeading(username = userData.first, address = userData.second)
+      CategoryCard(title = "Categories", categoryList = categories)
+      FoodCard(
+        title = stringResource(id = R.string.popular_food), foodList = featuredFoodList
+      )
+      FoodCard(
+        title = stringResource(id = R.string.recent_food),
+        description = stringResource(id = R.string.recent_food_description),
+        foodList = favoriteFoodList
+      )
+//      RestaurantCard(
+//        title = stringResource(id = R.string.new_restaurants),
+//        description = stringResource(id = R.string.new_restaurant_desc),
+//        restoList = newRestaurantList
+//      )
+    }
+  }
+
+  @Composable
+  @Preview
+  fun PreviewHomeView() {
+    HomeView()
+  }
+
   companion object {
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     **/
-    @JvmStatic fun newInstance() = HomeFragment().apply {
+    @JvmStatic
+    fun newInstance() = HomeFragment().apply {
       arguments = Bundle().apply {}
     }
   }

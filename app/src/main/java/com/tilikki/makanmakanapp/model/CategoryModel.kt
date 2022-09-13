@@ -1,4 +1,4 @@
-package layout.model
+package com.tilikki.makanmakanapp.model
 
 import androidx.annotation.DrawableRes
 import com.tilikki.makanmakanapp.FZeeHelper

@@ -2,11 +2,9 @@ package com.tilikki.makanmakanapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.tilikki.makanmakanapp.FZeeHelper
 import com.tilikki.makanmakanapp.databinding.ItemCategoryBinding
-import layout.model.CategoryModel
+import com.tilikki.makanmakanapp.model.CategoryModel
 
 class CategoryAdapter(private val categories: List<CategoryModel>) :
   RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
