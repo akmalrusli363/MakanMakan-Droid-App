@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tilikki.makanmakanapp.adapter.CategoryAdapter
@@ -28,8 +28,9 @@ import com.tilikki.makanmakanapp.model.FeaturedFoodModel
 import com.tilikki.makanmakanapp.model.RestaurantModel
 import com.tilikki.makanmakanapp.view.CategoryCard
 import com.tilikki.makanmakanapp.view.FoodCard
+import com.tilikki.makanmakanapp.view.GenericCard
 import com.tilikki.makanmakanapp.view.HomeHeading
-import com.tilikki.makanmakanapp.view.RestaurantCard
+import com.tilikki.makanmakanapp.view.item.ItemRestaurant
 
 /**
  * A simple [Fragment] subclass.
@@ -135,26 +136,35 @@ class HomeFragment : Fragment() {
     val featuredFoodList = MockHomeFragmentData.getFeaturedFoodList()
     val favoriteFoodList = MockHomeFragmentData.getFavoriteFoodList()
     val newRestaurantList = MockHomeFragmentData.getNewRestaurantList()
-    Column(
+    LazyColumn(
       modifier = Modifier
         .background(colorResource(id = R.color.white))
-        .verticalScroll(rememberScrollState())
     ) {
-      HomeHeading(username = userData.first, address = userData.second)
-      CategoryCard(title = "Categories", categoryList = categories)
-      FoodCard(
-        title = stringResource(id = R.string.popular_food), foodList = featuredFoodList
-      )
-      FoodCard(
-        title = stringResource(id = R.string.recent_food),
-        description = stringResource(id = R.string.recent_food_description),
-        foodList = favoriteFoodList
-      )
-//      RestaurantCard(
-//        title = stringResource(id = R.string.new_restaurants),
-//        description = stringResource(id = R.string.new_restaurant_desc),
-//        restoList = newRestaurantList
-//      )
+      item { HomeHeading(username = userData.first, address = userData.second) }
+      item { CategoryCard(title = "Categories", categoryList = categories) }
+      item {
+        FoodCard(
+          title = stringResource(id = R.string.popular_food), foodList = featuredFoodList
+        )
+      }
+      item {
+        FoodCard(
+          title = stringResource(id = R.string.recent_food),
+          description = stringResource(id = R.string.recent_food_description),
+          foodList = favoriteFoodList
+        )
+      }
+      item {
+        val title = stringResource(id = R.string.new_restaurants)
+        val description = stringResource(id = R.string.new_restaurant_desc)
+        GenericCard(title = title, description = description, onClickActionButton = {}) {}
+      }
+      items(newRestaurantList) { resto ->
+        ItemRestaurant(
+          restaurant = resto,
+          modifier = Modifier.padding(top = 8.dp, start = 24.dp, end = 24.dp)
+        )
+      }
     }
   }
 

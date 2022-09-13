@@ -28,7 +28,7 @@ import com.tilikki.makanmakanapp.model.RestaurantModel
 @Composable
 fun ItemRestaurant(restaurant: RestaurantModel, modifier: Modifier = Modifier) {
   Card(
-    elevation = 8.dp,
+    elevation = 2.dp,
     modifier = modifier
       .padding(horizontal = 8.dp, vertical = 12.dp)
       .fillMaxWidth(),
